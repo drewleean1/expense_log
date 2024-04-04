@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:$PORT main:expense
+web: python __init__.py
