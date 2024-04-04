@@ -1,1 +1,1 @@
-web: python __init__.py
+web: python expense/__init__.py
