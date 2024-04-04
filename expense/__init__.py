@@ -19,11 +19,11 @@ try:
 except OSError: 
     pass
 
-from . import db
+from expense import db
 db.init_app(app)
 
-from . import auth 
-from . import record 
+from expense import auth 
+from expense import record 
 
 app.register_blueprint(auth.bp)
 app.register_blueprint(record.bp)
