@@ -9,8 +9,6 @@ from expense.db import get_db
 from datetime import datetime, date
 import calendar 
 
-import logging
-
 bp = Blueprint('record', __name__)
 
 current_month = datetime.now().month
