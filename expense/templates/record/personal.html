@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    {% if g.user %}
+        <h1>{% block title %}Expenses for {{month}} {{year}} {% endblock %}</h1>
+        <a class="action" href="{{ url_for('record.add') }}">Add expense</a>
+    {% else %}
+        <h1>Register to keep track of your expenses!</h1>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if g.user %}
+        {% set sum = namespace(s=0) %}
+        <table class="expense_log">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Item</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    {% set sum.s = sum.s + product['amount'] %}
+                    <tr>
+                        <td>{{ product['buy_date']}}</td>
+                        <td>{{ product['item'] }}</td>
+                        <td>{{ product['amount'] }}</td>
+                        <td>{{ product['category'] }}</td>
+                        <td><a class="action" href="{{ url_for('record.edit', id=product['e_id']) }}">Edit</td>
+                        <td><form action="{{ url_for('record.delete', id=product['e_id']) }}" method="post">
+                            <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+                            </form></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot> 
+                <tr>  
+                    <td>Total</td>
+                    <td></td>
+                    <td>{{sum.s}}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    {% endif %}
+{% endblock %}

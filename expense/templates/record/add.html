@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}New Expense{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="buy_date">Date</label>
+    <input type="date" name="buy_date" id="buy_date" value="{{ request.form['buy_date'] }}" required>
+
+    <label for="item">Item</label>
+    <input name="item" id="item" value="{{ request.form['item'] }}" required>
+    
+    <label for="amount">Amount</label>
+    <input name="amount" id="amount" value="{{ request.form['amount'] }}" required>
+
+    <label for="category">Category</label>
+    <input  name="category" id="category" value="{{ request.form['category'] }}" required>
+    
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}
