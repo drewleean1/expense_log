@@ -3,25 +3,35 @@
 <title>{% block title %}{% endblock %} - Expense Log</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-<nav> 
-    <h1><a href="{{url_for('record.personal')}}">Expenses</a></h1>
-    <ul>
-        {% if g.user %}
-            <li><span>{{ g.user['username'] }}</span> 
-            <li><a href="{{ url_for('auth.logout') }}">Log out</a>
-        {% else %}
-            <li><a href="{{ url_for('auth.register') }}">Register</a>
-            <li><a href="{{ url_for('auth.login') }}">Log in</a>
-        {% endif %}
-    </ul>
-</nav>
+<div> 
+  <nav> 
+    {% if g.user %}
+      <h1>
+        <a class='pages' href="{{url_for('record.personal')}}">Expenses</a>
+        <a class='pages' href="{{url_for('record.personal')}}">Categories</a>
+      </h1>
+      <ul>
+        <li><span class="username">{{ g.user['username'] }}</span></li>
+        <li><a href="{{ url_for('auth.logout') }}">Log out</a>
+      </ul>
+    {% else %}
+      <h1><a href="{{url_for('record.personal')}}">Expenses</a></h1>
+      <ul>
+        <li><a href="{{ url_for('auth.register') }}">Register</a>
+        <li><a href="{{ url_for('auth.login') }}">Log in</a>
+      </ul>
+    {% endif %}
+  </nav>
 
-<section class="content">
-    <header>
-      {% block header %}{% endblock %}
-    </header>
-    {% for message in get_flashed_messages() %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
-    {% block content %}{% endblock %}
+  <section class="content">
+      <header>
+        {% block header %}{% endblock %}
+      </header>
+      {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+      {% block content %}{% endblock %}
   </section>
+  
+  <footer>© Andrew Lee 2024</footer>
+</div>

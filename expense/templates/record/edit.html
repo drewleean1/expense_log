@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post">
+  <form class="add_expense" method="post">
     <label for="buy_date">Date</label>
     <input type="date" name="buy_date" id="buy_date"
       value="{{ request.form['buy_date'] or single_expense['buy_date'] }}" required>

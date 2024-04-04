@@ -18,14 +18,13 @@ current_year = datetime.now().year
 
 print(current_month)
 
-beginning = date(current_year, current_month, 1)
-end = date(current_year, current_month, calendar.monthrange(current_year, current_month)[1])
 
-@bp.route('/')
-def personal(): 
+@bp.route('/', methods=('GET', 'POST'))
+def personal(month=current_month, year=current_year): 
     db = get_db()
 
-    print(beginning, end)
+    beginning = date(year, month, 1)
+    end = date(year, month, calendar.monthrange(year, month)[1])
 
     if g.user: 
         products = db.execute(
@@ -34,43 +33,95 @@ def personal():
             ' WHERE user_id = ? AND buy_date >= ? AND buy_date <= ?'
             ' ORDER BY buy_date DESC',
             (g.user['id'], beginning, end,)
-        ).fetchall()        
+        ).fetchall()
+
+        if request.method == "POST": 
+            if len(request.form) == 2: 
+                print('hello')
+                return redirect(url_for('record.search_month', month = request.form['month'], year = request.form['year']))
+            
+            if len(request.form) == 4: 
+                buy_date = request.form['buy_date']
+                item = request.form['item']
+                amount = request.form['amount']
+                category = request.form['category']
+                error = None
+
+                if not item: 
+                    error = 'Item is required'
+
+                if not amount: 
+                    error = 'Amount is required'
+
+                if error is not None: 
+                    flash(error)
+
+                else: 
+                    db = get_db()
+                    db.execute(
+                        'INSERT INTO expense (buy_date, item, amount, category, user_id)'
+                        ' VALUES (?, ?, ?, ?, ?)',
+                        (buy_date, item, amount, category, g.user['id'])
+                    )
+                    db.commit()
+                    return redirect(url_for('record.personal'))
 
         return render_template('record/personal.html', products = products, month=calendar.month_name[current_month], year=current_year)
     
     else: 
         return render_template('record/personal.html')
+    
+@bp.route("/<month>/<year>", methods=('GET', 'POST'))
+def search_month(month, year): 
+    db = get_db()
 
-@bp.route('/add', methods=('GET', 'POST'))
-@login_required
-def add(): 
+    month = int(month)
+    year = int(year)
+
+    beginning = date(year, month, 1)
+    end = date(year, month, calendar.monthrange(year, month)[1])
+
+    products = db.execute(
+        'SELECT *'
+        ' FROM expense'
+        ' WHERE user_id = ? AND buy_date >= ? AND buy_date <= ?'
+        ' ORDER BY buy_date DESC',
+        (g.user['id'], beginning, end,)
+        ).fetchall()
+    
     if request.method == "POST": 
-        buy_date = request.form['buy_date']
-        item = request.form['item']
-        amount = request.form['amount']
-        category = request.form['category']
-        error = None
+        if len(request.form) == 2: 
+            print('hello')
+            return redirect(url_for('record.search_month', month = request.form['month'], year = request.form['year']))
+        
+        if len(request.form) == 4: 
+            buy_date = request.form['buy_date']
+            item = request.form['item']
+            amount = request.form['amount']
+            category = request.form['category']
+            error = None
 
-        if not item: 
-            error = 'Item is required'
+            if not item: 
+                error = 'Item is required'
 
-        if not amount: 
-            error = 'Amount is required'
+            if not amount: 
+                error = 'Amount is required'
 
-        if error is not None: 
-            flash(error)
+            if error is not None: 
+                flash(error)
 
-        else: 
-            db = get_db()
-            db.execute(
-                'INSERT INTO expense (buy_date, item, amount, category, user_id)'
-                ' VALUES (?, ?, ?, ?, ?)',
-                (buy_date, item, amount, category, g.user['id'])
-            )
-            db.commit()
-            return redirect(url_for('record.personal'))
+            else: 
+                db = get_db()
+                db.execute(
+                    'INSERT INTO expense (buy_date, item, amount, category, user_id)'
+                    ' VALUES (?, ?, ?, ?, ?)',
+                    (buy_date, item, amount, category, g.user['id'])
+                )
+                db.commit()
+                return redirect(url_for('record.personal'))
 
-    return render_template('record/add.html')
+    return render_template('record/personal.html', products = products, month=calendar.month_name[month], year=year)
+
 
 def get_expense(id, check_user=True): 
     single_expense = get_db().execute(

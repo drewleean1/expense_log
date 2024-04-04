@@ -2,8 +2,6 @@
 
 {% block header %}
     {% if g.user %}
-        <h1>{% block title %}Expenses for {{month}} {{year}} {% endblock %}</h1>
-        <a class="action" href="{{ url_for('record.add') }}">Add expense</a>
     {% else %}
         <h1>Register to keep track of your expenses!</h1>
     {% endif %}
@@ -11,6 +9,58 @@
 
 {% block content %}
     {% if g.user %}
+        <div class="expense_header"> 
+            <h1>{% block title %}Expenses for {{month}} {{year}} {% endblock %}</h1>
+            <form class="add_expense" method="post">
+                <label>
+                  <select name="month" id="month">
+                      <option value="">Month</option>
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
+                      <option value="4">April</option>
+                      <option value="5">May</option>
+                      <option value="6">June</option>
+                      <option value="7">July</option>
+                      <option value="8">August</option>
+                      <option value="9">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                  </select>
+                </label>
+                <label>
+                  <select name="year" id="year">
+                      <option value="">Year</option>
+                      <option value="2024">2024</option>
+                      <option value="2023">2023</option>
+                  </select>
+                </label>
+                <button
+                      type="submit"
+                      value="search"
+                      >Search</button>
+                </form>
+        </div>
+        <div class = 'expense_header'>
+            <h2>Add an expense:</h2>
+            <form class="add_expense" method="post">
+                <label for="buy_date"></label>
+                <input type="date" name="buy_date" id="buy_date" placeholder="date" value="{{ request.form['buy_date'] }}" required>
+            
+                <label for="item"></label>
+                <input name="item" id="item" placeholder="Item" value="{{ request.form['item'] }}" required>
+                
+                <label for="amount"></label>
+                <input name="amount" id="amount" placeholder="Amount" value="{{ request.form['amount'] }}" required>
+            
+                <label for="category"></label>
+                <input  name="category" id="category" placeholder="Category" value="{{ request.form['category'] }}" required>
+                
+                <input type="submit" value="Add">
+            </form>
+        </div>
+
         {% set sum = namespace(s=0) %}
         <table class="expense_log">
             <thead>
@@ -47,5 +97,24 @@
                 </tr>
             </tfoot>
         </table>
+    {% else %}
+    <div>
+        <article> 
+            <p>This is my personal website. It uses the following technologies and languages: 
+            <ul>
+                <li>HTML: The basic language used in web development.</li>
+                <li>CSS: The language we use for the website's aesthetic design.</li>
+                <li>Flask: A backend framework for Python</li>
+                <li>Python: Snake language</li>
+                <li>Jinga2</li>
+                <li>SQLite: database</li>
+                <li>Heroku</li>
+                <li>Github Pages</li>
+            </ul>
+            <a class="github" href= "https://github.com/drewleean1" rel="noreferrer">My github</a>
+            
+            </p>
+        </article>
+    </div>
     {% endif %}
 {% endblock %}

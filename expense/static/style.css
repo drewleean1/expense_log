@@ -1,19 +1,30 @@
 html {
-    font-family: sans-serif;
-    background: #eee;
-    padding: 1rem;
+    font-family: Verdana;
+    background: white;
+    color: hsl(58, 100%, 87%);
+    height: 100%;
+    width: 100%;
   }
   
   body {
-    max-width: 960px;
+    max-width: 100%;
     margin: 0 auto;
-    background: white;
+    background: hsl(208,95.8%,28%);
+    height:100%;
   }
   
-  h1, h2, h3, h4, h5, h6 {
-    font-family: serif;
-    color: #377ba8;
+  h1{
+    font-family: Verdana;
+    color: hsl(105, 56%, 72%);
     margin: 1rem 0;
+    font-size:200%;
+  }
+
+  h2 {
+    font-family: Verdana;
+    color: hsl(105, 56%, 72%);
+    margin: 1rem 0;
+    font-size:150%;
   }
   
   a {
@@ -24,12 +35,20 @@ html {
     border: none;
     border-top: 1px solid lightgray;
   }
-  
-  nav {
-    background: lightgray;
+
+  footer {
+    background: white;
     display: flex;
     align-items: center;
-    padding: 0 0.5rem;
+    padding: 2% 0.5rem;
+    color: #377ba8;
+  }
+  
+  nav {
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 2% 0.5rem;
   }
   
   nav h1 {
@@ -54,16 +73,61 @@ html {
     padding: 0.5rem;
   }
 
+  .pages {
+    text-decoration: underline #377ba8;
+  }
+
+  .username {
+    color: hsl(208,95.8%,28%);
+    text-decoration: hsl(208,95.8%,28%); 
+  }
+
+  section {
+    background: hsl(208,95.8%,28%);
+  }
+
   table {
     border-collapse:collapse;
     width:100%;
     font-size: 125%;
+    padding:2%;
+    margin-top: 1%;
   }
-  tr th, 
+
   tr td {
-    border:5px solid var(--palegreen);
-    padding:1%;
+    padding: 1%;
     text-align: center;
+  }
+
+  .expense_header {
+      display:flex;
+      justify-content: space-between;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-top: 0;
+      padding-bottom:0;
+  }
+
+  .add_expense {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      margin-top:0;
+      margin-bottom:0;
+      padding-top:0;
+      padding-bottom:0;
+  }
+
+  .add_expense label {
+    margin: 5px 10px 5px 0;
+  }
+  
+  .add_expense input {
+    vertical-align: middle;
+    margin: 5px 10px 5px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
   }
   
   .content {
@@ -71,7 +135,6 @@ html {
   }
   
   .content > header {
-    border-bottom: 1px solid lightgray;
     display: flex;
     align-items: flex-end;
   }
@@ -87,15 +150,7 @@ html {
     background: #cae6f6;
     border: 1px solid #377ba8;
   }
-
-
-  
   
   input.danger {
     color: #cc2f2e;
-  }
-  
-  input[type=submit] {
-    align-self: start;
-    min-width: 10em;
   }
